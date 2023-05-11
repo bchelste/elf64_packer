@@ -1,2 +1,2 @@
-#ignore .DS_Store
-*.DS_Store
+#ignore for macOS -> .DS_Store
+.DS_Store
