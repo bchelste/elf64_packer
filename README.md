@@ -19,4 +19,4 @@ content of an executable until it execution.
 The goal of this project is to code a program that will at first encrypt a program given
 as parameter. Only 64 bits ELF files will be managed here.
 
-![Image woody](https://github.com/bchelste/elf64_packer/tree/main/subject/woody_image.png)
+![Image woody](https://github.com/bchelste/elf64_packer/blob/main/subject/woody_image.png)
