@@ -6,7 +6,7 @@
 #    By: bchelste <bchelste@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 19:10:42 by bchelste          #+#    #+#              #
-#    Updated: 2023/05/18 20:04:21 by bchelste         ###   ########.fr        #
+#    Updated: 2023/05/18 22:46:10 by bchelste         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,9 @@ INC_DIR		=	includes
 SRC_DIR		=	sources
 CC			=	clang
 
-SRCS		=	$(SRC_DIR)/main.c
+SRCS		=	$(SRC_DIR)/main.c \
+				$(SRC_DIR)/parser.c \
+				$(SRC_DIR)/my_lib_functions.c
 
 OBJS		=	$(SRCS:.c=.o)
 

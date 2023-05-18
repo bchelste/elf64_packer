@@ -6,7 +6,7 @@
 /*   By: bchelste <bchelste@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:53:50 by bchelste          #+#    #+#             */
-/*   Updated: 2023/05/18 19:23:59 by bchelste         ###   ########.fr       */
+/*   Updated: 2023/05/18 20:55:05 by bchelste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,4 +14,11 @@
 
 int	main(int argc, char **argv) {
 	
+	t_woody woody;
+	my_memset(&woody, 0, sizeof(woody));
+	
+	if (cl_arg_parser(argc,argv, &woody))
+		return 1;
+	
+	return 0;
 }
