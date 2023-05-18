@@ -1,2 +1,5 @@
 #ignore for macOS -> .DS_Store
 .DS_Store
+
+# Compiled object files
+.o
