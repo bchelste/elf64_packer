@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   file_operations.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bchelste <bchelste@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/18 18:53:50 by bchelste          #+#    #+#             */
-/*   Updated: 2023/05/18 20:55:05 by bchelste         ###   ########.fr       */
+/*   Created: 2023/05/18 20:33:24 by bchelste          #+#    #+#             */
+/*   Updated: 2023/05/18 22:08:00 by bchelste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "woody.h"
 
-int	main(int argc, char **argv) {
-	
-	t_woody woody;
-	my_memset(&woody, 0, sizeof(woody));
-	int ec = 0;
-	
-	
-	if (ec = cl_arg_check(argc,argv, &woody))
-		return ec;
-	if (ec = file_info_parser(argv[argc - 1], &woody))
-		return ec;
-	
-	
-	return 0;
+ssize_t get_file_size(FILE *in_file) {
+    ssize_t result = 0;
+    fseek(in_file, 0, SEEK_END);
+    result = ftell(in_file);
+    fseek(in_file, 0, SEEK_SET);
+    return result;
 }

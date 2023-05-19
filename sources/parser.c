@@ -28,9 +28,15 @@ int cl_arg_check(int argc, char **argv, t_woody *woody) {
 	return 0;
 }
 
-int cl_arg_parser(int argc, char **argv, t_woody *woody) {
-	if (cl_arg_check(argc, argv, woody))
-		return 1;
-		
+int file_info_parser(const char *file_path, t_woody *woody) {
+	FILE *fd = fopen(file_path, "rb");
+	if (fd == NULL) {
+		write(STDERR_FILENO, F_OPEN_ERROR, my_strlen(F_OPEN_ERROR));
+		return -1;
+	}
+	woody->file_size = get_file_size(fd);
+	
+
+
 	return 0;
 }

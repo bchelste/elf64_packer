@@ -17,7 +17,8 @@ CC			=	clang
 
 SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/parser.c \
-				$(SRC_DIR)/my_lib_functions.c
+				$(SRC_DIR)/my_lib_functions.c \
+				$(SRC_DIR)/file_operations.c
 
 OBJS		=	$(SRCS:.c=.o)
 
