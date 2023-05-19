@@ -11,11 +11,3 @@
 /* ************************************************************************** */
 
 #include "woody.h"
-
-ssize_t get_file_size(FILE *in_file) {
-    ssize_t result = 0;
-    fseek(in_file, 0, SEEK_END);
-    result = ftell(in_file);
-    fseek(in_file, 0, SEEK_SET);
-    return result;
-}

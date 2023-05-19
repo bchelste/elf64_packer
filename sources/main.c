@@ -18,10 +18,11 @@ int	main(int argc, char **argv) {
 	my_memset(&woody, 0, sizeof(woody));
 	int ec = 0;
 	
-	
-	if (ec = cl_arg_check(argc,argv, &woody))
+	if ((ec = cl_arg_check(argc,argv, &woody)))
 		return ec;
-	if (ec = file_info_parser(argv[argc - 1], &woody))
+	if ((ec = copy_file(argv[argc - 1], &woody)))
+		return ec;
+	if ((ec = parser_file_info(&woody)))
 		return ec;
 	
 	
