@@ -30,7 +30,7 @@ as parameter. Only 64 bits ELF files will be managed here.
 
 # The struct of ELF file
 
-<img src="https://github.com/bchelste/elf64_packer/blob/main/subject/elf_struct.png" align="center" height="800" ></h1>
+<img src="https://github.com/bchelste/elf64_packer/blob/main/subject/elf_struct.png" align="center" height="600" ></h1>
 
 ---
 # some useful commands for working with ELF files
