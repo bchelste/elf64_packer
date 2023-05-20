@@ -1,7 +1,7 @@
 ---
 # woody_woodpacker (packer for elf_64 files)
 
-<img align="center" src="https://github.com/bchelste/elf64_packer/blob/main/subject/woody_image.png" width="500"></h1>
+<img src="https://github.com/bchelste/elf64_packer/blob/main/subject/woody_image.png" align="center" width="500" ></h1>
 
 ---
 **Linux project**
@@ -30,7 +30,7 @@ as parameter. Only 64 bits ELF files will be managed here.
 
 # The struct of ELF file
 
-
+<img src="https://github.com/bchelste/elf64_packer/blob/main/subject/elf_struct.png" align="center" height="800" ></h1>
 
 ---
 # some useful commands for working with ELF files
@@ -38,9 +38,11 @@ as parameter. Only 64 bits ELF files will be managed here.
 - **readelf** (-h -> to read header, -a -> to read all) <elf_file>
 
 
+
 to compile elf64 => flag **-m64** is required,
 there is also flag **-no-pie** for **EXEC** type
 (and type = DYN without that flag)
+
 ---
 # Usage
 **make**  
