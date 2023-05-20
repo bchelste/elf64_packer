@@ -41,3 +41,13 @@ int my_strcmp(const char *lhs, const char *rhs) {
 	}
 	return 0;
 }
+
+int my_strncmp(const char *lhs, const char *rhs, size_t nbr) {
+	size_t i = 0;
+	while ((i < nbr) && (lhs[i] || rhs[i])) {
+		if ((unsigned char)lhs[i] != (unsigned char)rhs[i])
+			return ((unsigned char)lhs[i] - (unsigned char)rhs[i]);
+		++i;
+	}
+	return 0;
+}
