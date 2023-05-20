@@ -24,7 +24,7 @@ int	main(int argc, char **argv) {
 		return ec;
 	if ((ec = parser_file_info(&woody)))
 		return ec;
-	
-	
+	if ((ec = encrypt_file(&woody)))
+		return ec;
 	return 0;
 }

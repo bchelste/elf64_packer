@@ -51,3 +51,33 @@ int my_strncmp(const char *lhs, const char *rhs, size_t nbr) {
 	}
 	return 0;
 }
+
+int my_memcmp(const void *lhs, const void *rhs, size_t nbr) {
+	unsigned char *lhs_ptr = (unsigned char*)lhs;
+	unsigned char *rhs_ptr = (unsigned char*)rhs;
+	for (size_t i = 0; i < nbr; ++i) {
+		if (lhs_ptr[i] != rhs_ptr[i])
+			return (lhs_ptr[i] - rhs_ptr[i]);
+	}
+	return 0;
+}
+
+void *my_memmove(void *dst, const void *src, size_t len) {
+	if (!dst && !src)
+		return NULL;
+	unsigned char *dst_ptr = (unsigned char*)dst;
+	unsigned char *src_ptr = (unsigned char*)src;
+	size_t cntr = 0;
+	if (dst > src) {
+		while (cntr < len) {
+			dst_ptr[(len - 1) - cntr] = src_ptr[(len - 1) - cntr];
+			++cntr;
+		}
+	} else {
+		while (len--) {
+			dst_ptr[cntr] = src_ptr[cntr];
+			++cntr;
+		}
+	}
+	return dst;
+}
