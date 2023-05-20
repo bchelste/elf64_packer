@@ -3,3 +3,6 @@
 
 # Compiled object files
 .o
+
+.idea
+.vscode
