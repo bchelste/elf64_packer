@@ -29,9 +29,10 @@
 # include <fcntl.h>
 
 typedef struct s_woody {
-	ssize_t file_size;
-	void 	*ptr;
-	char	flag_info;
+	ssize_t 	file_size;
+	void 		*ptr;
+	char		flag_info;
+	Elf64_Ehdr	*ehdr;
 	
 	
 } t_woody;
@@ -41,6 +42,7 @@ int get_file_size(int fd, t_woody *woody);
 int read_file(int fd, t_woody *woody);
 int copy_file(const char *file_path, t_woody *woody);
 
+int check_file_format(unsigned char *src);
 int parser_file_info(t_woody *woody);
 
 void *my_memset(void *src, int c, size_t len);

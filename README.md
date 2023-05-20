@@ -24,11 +24,18 @@ The goal of this project is to code a program that will at first encrypt a progr
 as parameter. Only 64 bits ELF files will be managed here.
 ---
 
-![Image woody](https://github.com/bchelste/elf64_packer/blob/main/subject/woody_image.png)
+<!-- ![Image woody](https://github.com/bchelste/elf64_packer/blob/main/subject/woody_image.png) -->
+
+<img src="https://github.com/bchelste/elf64_packer/blob/main/subject/woody_image.png" width="100">
 ---
 # some useful commands for working with ELF files
 - **file** <efl_file>
 - **readelf** (-h -> to read header, -a -> to read all) <elf_file>
+
+
+to compile elf64 => flag **-m64** is required,
+there is also flag **-no-pie** for **EXEC** type
+(and type = DYN without that flag)
 ---
 # Usage
 **make**  
