@@ -3,8 +3,12 @@
 
 <div align="center">
 <img src="https://github.com/bchelste/elf64_packer/blob/main/subject/woody_image.png" align="center" width="500" ></h1>
-</div> 
+</div>
+
+
 ---
+
+
 **Linux project**
 (written in **C**)
 
@@ -32,8 +36,10 @@ as parameter. Only 64 bits ELF files will be managed here.
 # The struct of ELF file
 <div align="center">
 <img src="https://github.com/bchelste/elf64_packer/blob/main/subject/elf_struct.png"></h1>
-</div> 
+</div>
+
 ---
+
 # some useful commands for working with ELF files
 - **file** <efl_file>
 - **readelf** (-h -> to read header, -a -> to read all) <elf_file>
