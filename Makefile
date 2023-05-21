@@ -29,7 +29,7 @@ HEAD		=	$(INC_DIR)/woody.h
 
 CFLAGS		=	-Wextra -Werror -Wall $(INC)
 
-OPTFLAGS	=	-O0
+OPTFLAGS	=	-O0 
 
 MAKE		=	make
 
@@ -39,20 +39,26 @@ RM			=	rm -rf
 	$(CC) $(CFLAGS) $(OPTFLAGS) -c $< -o $@
 
 .PHONY: all clean fclean re hello
-
+	
 all:
 	@$(MAKE) $(NAME) -j 4
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OPTFLAGS) $(OBJS) -o $(NAME)
+$(SRC_DIR)/g_decryptor.c:
+	nasm -f bin $(SRC_DIR)/magic.s -o $(SRC_DIR)/g_decryptor
+	cd $(SRC_DIR) && xxd -i -c8 g_decryptor g_decryptor.c
+
+$(NAME): $(OBJS) $(SRC_DIR)/g_decryptor.o
+	$(CC) $(CFLAGS) $(OPTFLAGS) $(OBJS) $(SRC_DIR)/g_decryptor.o -o $(NAME)
 
 clean:
 	$(RM) $(OBJS)
+	$(RM) $(SRC_DIR)/g_decryptor.c $(SRC_DIR)/g_decryptor $(SRC_DIR)/g_decryptor.o
 
 fclean: clean 
 	$(RM) $(NAME)
 	$(RM) hello
-
+	$(RM) woody
+	$(RM) logfile.txt
 re: fclean all
 
 hello:

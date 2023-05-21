@@ -20,7 +20,8 @@
 # include <fcntl.h>
 
 # define ARGS_ERROR		"Wrong syntax. Correct way is to type: ./woody_woodpacker ./path/binary or ./woody_woodpacker -i ./path/binary\n"
-# define WRONG_FLAG		"Error: wrong flag!\n"
+# define WRONG_FLAG		"Error: wrong flag! (wrong flag would be ignored)\n"
+# define LOG_FD_ER		"There was something wrong with log file fd\n"
 # define F_OPEN_ERROR	"Error: failed -> open input file\n"
 # define INVALID_ELF	"Error: invalid file, it must be valid linux ELF_64\n"
 # define MALLOC_ERROR	"Error: something wrong with malloc\n"
@@ -37,9 +38,10 @@ extern unsigned char	g_decryptor[];
 extern unsigned int		g_decryptor_len;
 
 typedef struct s_woody {
+	char		flag_info;
+	int			fd_logs;
 	ssize_t 	file_size;
 	void 		*ptr;
-	char		flag_info;
 	Elf64_Ehdr	*header;
 	Elf64_Phdr	*segments;
 	Elf64_Phdr	*code_segment;
