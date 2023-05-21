@@ -76,5 +76,7 @@ int my_strcmp(const char *lhs, const char *rhs);
 int my_strncmp(const char *lhs, const char *rhs, size_t nbr);
 int my_memcmp(const void *lhs, const void *rhs, size_t nbr);
 void *my_memmove(void *dst, const void *src, size_t len);
+uint64_t key_generator(size_t len);
+ssize_t wright_data(int fd, ssize_t size, ssize_t chunk, void *storage);
 
 #endif

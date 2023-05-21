@@ -12,23 +12,6 @@
 
 #include "woody.h"
 
-uint64_t key_generator(size_t len) {
-    int fd = open("/dev/urandom", O_RDONLY);
-    if (fd < 0) {
-        write(STDERR_FILENO, ERROR_KEY, my_strlen(ERROR_KEY));
-        close(fd);
-        return 1;
-    }
-    long long key = 0;
-    if (!read(fd, &key, len)) {
-        write(STDERR_FILENO, ERROR_KEY, my_strlen(ERROR_KEY));
-        close(fd);
-        return 1;
-    }
-    close(fd);
-    return ((uint64_t)key);
-}
-
 int set_crypto_data(t_crypto *crypto, t_woody *woody) {
     if ((crypto->key = key_generator(KEY_LEN)) == 1)
         return 1;
@@ -66,16 +49,8 @@ void change_load_segment(t_crypto *crypto, t_woody *woody) {
 int write_to_file(t_woody *woody) {
     int fd = open("woody", O_WRONLY | O_CREAT | O_TRUNC, 0755);
     ssize_t i = 0;
-    void *tmp_ptr = woody->ptr;
     if (fd > 0) {
-        while (i < woody->file_size) {
-            tmp_ptr = woody->ptr + i;
-            if (woody->file_size - i >= BUFFER_SIZE) {
-                i += write(fd, tmp_ptr, BUFFER_SIZE);
-            } else {
-                i += write(fd, tmp_ptr, woody->file_size % BUFFER_SIZE);
-            }
-        }  
+        i = wright_data(fd, woody->file_size, BUFFER_SIZE, woody->ptr);
         close(fd);
         printf("File create: woody\n");
     } else { 
