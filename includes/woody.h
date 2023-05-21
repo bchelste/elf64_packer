@@ -50,11 +50,11 @@ typedef struct s_woody {
 } t_woody;
 
 typedef struct s_crypto {
-	uint64_t	key;
 	uint64_t	original_entry;
-	uint64_t	encrypted_entry;
-	uint64_t	encrypted_code_section;
+	uint64_t	encrypted_code;
 	uint64_t	encrypted_size;
+	uint64_t	key;
+	uint64_t	encrypted_entry;
 } t_crypto;
 
 int cl_arg_check(int argc, char **argv, t_woody *woody);

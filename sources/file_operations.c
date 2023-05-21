@@ -29,20 +29,15 @@ uint64_t key_generator(size_t len) {
     return ((uint64_t)key);
 }
 
-uint64_t	set_current_entry(t_woody *woody) {
-    Elf64_Ehdr *tmp = (Elf64_Ehdr*)woody->ptr;
-    tmp->e_entry = woody->code_segment->p_vaddr + woody->code_segment->p_memsz;
-    return tmp->e_entry;
-}
-
 int set_crypto_data(t_crypto *crypto, t_woody *woody) {
     if ((crypto->key = key_generator(KEY_LEN)) == 1)
         return 1;
     crypto->original_entry = woody->header->e_entry;
-    crypto->encrypted_code_section = woody->text_section->sh_addr;
+    crypto->encrypted_code = woody->text_section->sh_addr;
     crypto->encrypted_size = woody->text_section->sh_size;
-    // crypto->encrypted_entry = set_current_entry(woody);
-    crypto->encrypted_entry = woody->code_segment->p_vaddr + woody->code_segment->p_memsz;
+    Elf64_Ehdr *tmp = (Elf64_Ehdr*)woody->ptr;
+    tmp->e_entry = woody->code_segment->p_vaddr + woody->code_segment->p_memsz;
+    crypto->encrypted_entry = tmp->e_entry;
     return 0;
 }
 
