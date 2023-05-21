@@ -14,7 +14,6 @@
 
 int get_file_size(int fd, t_woody *woody) {
     woody->file_size = lseek(fd, (size_t)0, SEEK_END);
-	printf("filesize = %ld\n", woody->file_size);
     if ((woody->file_size < 0) || (lseek(fd, (size_t)0, SEEK_SET) == -1)) {
         return 1;
     }
@@ -26,12 +25,12 @@ int get_file_size(int fd, t_woody *woody) {
 int read_file(int fd, t_woody *woody) {
 	woody->ptr = malloc(woody->file_size);
 	if (woody->ptr == NULL) {
-		write(STDERR_FILENO, MALLOC_ERROR, my_strlen(MALLOC_ERROR));
+		output_error(E_MALLOC);
 		return 1;
 	}
 	my_memset(woody->ptr, 0, woody->file_size);
 	if (read(fd, woody->ptr, woody->file_size) != woody->file_size) {
-		write(STDERR_FILENO, READ_ERROR, my_strlen(READ_ERROR));
+		output_error(E_READ);
 		return 1;
 	}
 	return(0);
@@ -40,12 +39,12 @@ int read_file(int fd, t_woody *woody) {
 int copy_file(const char *file_path, t_woody *woody) {
 	int fd = open(file_path, O_RDONLY);
 	if (fd < 0) {
-		write(STDERR_FILENO, F_OPEN_ERROR, my_strlen(F_OPEN_ERROR));
+		output_error(E_OPEN_FILE);
 		return 1;
 	}
 	if (get_file_size(fd, woody)) {
 		close(fd);
-		write(STDERR_FILENO, INVALID_ELF, my_strlen(INVALID_ELF));
+		output_error(E_INVALID_ELF);
 		return 1;
 	}
 	if (read_file(fd, woody)) {

@@ -19,17 +19,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 
-# define ARGS_ERROR		"Wrong syntax. Correct way is to type: ./woody_woodpacker ./path/binary or ./woody_woodpacker -i ./path/binary\n"
-# define WRONG_FLAG		"Only -i flag is managed (wrong flag would be ignored)\n"
-# define LOG_FD_ER		"There was something wrong with log file fd\n"
-# define F_OPEN_ERROR	"failed -> open input file\n"
-# define INVALID_ELF	"Error: invalid file, it must be valid linux ELF_64\n"
-# define MALLOC_ERROR	"Error: something wrong with malloc\n"
-# define READ_ERROR		"Error: something wrong with reading file\n"
-# define ENCRYPTED		"Binary file has already encrypted\n"
-# define NOSPACE		"There is no empty space fo decryptor\n"
-# define ERROR_KEY		"TSomething wrong with /dev/urandom fd\n"
-# define E_WRITE_WOODY	"Error: could not write to 'woody' file\n"
+#include "defines.h"
 
 # define BUFFER_SIZE	4096
 # define KEY_LEN		8
@@ -39,7 +29,6 @@ extern unsigned int		g_decryptor_len;
 
 typedef struct s_woody {
 	char		flag_info;
-	int			fd_logs;
 	ssize_t 	file_size;
 	void 		*ptr;
 	Elf64_Ehdr	*header;
@@ -47,6 +36,7 @@ typedef struct s_woody {
 	Elf64_Phdr	*code_segment;
 	Elf64_Shdr	*sections;
 	Elf64_Shdr	*text_section;
+	uint64_t	key;
 } t_woody;
 
 typedef struct s_crypto {
@@ -57,17 +47,8 @@ typedef struct s_crypto {
 	uint64_t	encrypted_entry;
 } t_crypto;
 
-int cl_arg_check(int argc, char **argv, t_woody *woody);
-int get_file_size(int fd, t_woody *woody);
-int read_file(int fd, t_woody *woody);
 int copy_file(const char *file_path, t_woody *woody);
-
-int check_file_format(unsigned char *src);
-Elf64_Phdr	*get_load_segment(t_woody *woody);
-Elf64_Shdr	*get_text_section(t_woody *woody);
-void set_segments(t_woody *woody);
 int parser_file_info(t_woody *woody);
-
 int encrypt_file(t_woody *woody);
 
 void *my_memset(void *src, int c, size_t len);
@@ -78,5 +59,6 @@ int my_memcmp(const void *lhs, const void *rhs, size_t nbr);
 void *my_memmove(void *dst, const void *src, size_t len);
 uint64_t key_generator(size_t len);
 ssize_t wright_data(int fd, ssize_t size, ssize_t chunk, void *storage);
+ssize_t output_error(const char *src);
 
 #endif

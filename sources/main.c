@@ -13,26 +13,28 @@
 #include "woody.h"
 
 void output_info(t_woody *woody) {
-	write (STDOUT_FILENO, "output logs\n", 13);
-	if (woody->fd_logs > 0)
-		close(woody->fd_logs);
+	unsigned char *src = woody->ptr;
+	printf("%s---------------------------------\n%s", BLUE, RESET);
+	printf("%s        WOODY INFO OUTPUT        \n%s", BLUE, RESET);
+	printf("%s---------------------------------\n%s", BLUE, RESET);
+	printf("%sfile size: %ld\n%s", BLUE, woody->file_size, RESET);
+	printf("%sfile extension : %x -> %c%c%c\n%s", BLUE, src[0], src[1], src[2], src[3], RESET);
+	printf("%self class: %d (01 - elf32, and 02 - elf64)\n%s", BLUE, src[4], RESET);
+	printf("%sfile type: %d (2 - EXEC, and 3 - DYN)\n%s", BLUE, src[16], RESET);
+	printf("%sfile architect: %d (62 -> EM_X86_64)\n%s", BLUE, src[18], RESET);
+	printf("%s---------------------------------\n%s", BLUE, RESET);
 }
 
 int cl_arg_check(int argc, char **argv, t_woody *woody) {
 	if ((argc != 2) && (argc != 3)) {
-		write(STDERR_FILENO, ARGS_ERROR, my_strlen(ARGS_ERROR));
+		output_error(E_ARGS);
 		return 1;
 	}
 	if (argc == 3) {
 		if (!my_strcmp(argv[1], "-i")) {
 			woody->flag_info = 'i';
-			woody->fd_logs = open("logfile.txt", O_WRONLY|O_TRUNC|O_CREAT);
-			if (woody->fd_logs < 0) {
-				woody->flag_info = 0;
-				write(STDERR_FILENO, LOG_FD_ER, my_strlen(LOG_FD_ER));
-			}
 		} else {
-			write(STDERR_FILENO, WRONG_FLAG, my_strlen(WRONG_FLAG));
+			output_error(E_WRONG_FLAG);
 			return 1;
 		}
 	}

@@ -85,13 +85,13 @@ void *my_memmove(void *dst, const void *src, size_t len) {
 uint64_t key_generator(size_t len) {
     int fd = open("/dev/urandom", O_RDONLY);
     if (fd < 0) {
-        write(STDERR_FILENO, ERROR_KEY, my_strlen(ERROR_KEY));
+		output_error(E_KEY);
         close(fd);
         return 1;
     }
     long long key = 0;
     if (!read(fd, &key, len)) {
-        write(STDERR_FILENO, ERROR_KEY, my_strlen(ERROR_KEY));
+        output_error(E_KEY);
         close(fd);
         return 1;
     }
@@ -111,4 +111,8 @@ ssize_t wright_data(int fd, ssize_t size, ssize_t chunk, void *storage) {
         }
     }
     return i;
+}
+
+ssize_t output_error(const char *src) {
+	return (write(STDERR_FILENO, src, my_strlen(src)));
 }

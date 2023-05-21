@@ -15,6 +15,7 @@
 int set_crypto_data(t_crypto *crypto, t_woody *woody) {
     if ((crypto->key = key_generator(KEY_LEN)) == 1)
         return 1;
+    woody->key = crypto->key;
     crypto->original_entry = woody->header->e_entry;
     crypto->encrypted_code = woody->text_section->sh_addr;
     crypto->encrypted_size = woody->text_section->sh_size;
@@ -33,7 +34,7 @@ void encrypt_text_section(size_t size, void *data, uint64_t key) {
         value <<= 63;
         key = (key >> 1) | value;
     }
-    printf("key_value: %#.16llx\n", (long long)tmp_key);
+    printf("%skey_value: %#.16llx\n%s", YELLOW, (long long)tmp_key, RESET);
 }
 
 void change_load_segment(t_crypto *crypto, t_woody *woody) {
@@ -52,24 +53,30 @@ int write_to_file(t_woody *woody) {
     if (fd > 0) {
         i = wright_data(fd, woody->file_size, BUFFER_SIZE, woody->ptr);
         close(fd);
-        printf("File create: woody\n");
+        printf("%sFile create: woody\n%s", GREEN, RESET);
     } else { 
         return -1;
     }
     return (i == woody->file_size);
 }
 
+int make_magic(t_woody *woody, t_crypto *crypto) {
+    void *pos = woody->ptr + woody->text_section->sh_offset;
+    encrypt_text_section(woody->text_section->sh_size, pos, crypto->key);
+    change_load_segment(crypto, woody);
+    if (write_to_file(woody) != 1){
+        output_error(E_WRITE_WOODY);
+        return 1;
+    }
+    return 0;
+}
+
 int encrypt_file(t_woody *woody) {
     t_crypto crypto;
-    void *pos = woody->ptr + woody->text_section->sh_offset;
-    if (set_crypto_data(&crypto, woody)) {
+    my_memset(&crypto, 0, sizeof(crypto));
+    if (set_crypto_data(&crypto, woody))
         return 1;
-    }
-    encrypt_text_section(woody->text_section->sh_size, pos, crypto.key);
-    change_load_segment(&crypto, woody);
-    if (write_to_file(woody) != 1){
-        write(STDERR_FILENO, E_WRITE_WOODY, my_strlen(E_WRITE_WOODY));
+    if (make_magic(woody, &crypto))
         return 1;
-    }
     return 0;
 }

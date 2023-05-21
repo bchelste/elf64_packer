@@ -8,7 +8,7 @@ int check_file_format(unsigned char *src) {
         (src[18] == EM_X86_64)) {
             return 0;
     }
-    write(STDERR_FILENO, INVALID_ELF, my_strlen(INVALID_ELF));
+    output_error(E_INVALID_ELF);
     return 1;
 }
 Elf64_Phdr	*get_load_segment(t_woody *woody) {
@@ -50,7 +50,7 @@ void set_segments(t_woody *woody) {
 int check_encryption(t_woody *woody) {
     void *tmp = woody->ptr + woody->code_segment->p_offset + woody->code_segment->p_filesz - g_decryptor_len;
     if (my_memcmp(tmp, g_decryptor, (size_t)(g_decryptor_len - sizeof(t_crypto))) == 0) {
-        write(STDERR_FILENO, ENCRYPTED, my_strlen(ENCRYPTED));
+        output_error(E_ENCRYPTED);
         return 1;
     }
     return 0;
@@ -64,7 +64,7 @@ int check_empty_space(t_woody *woody) {
             ++pos;
     }
     if ((pos - tmp) < g_decryptor_len) {
-        write(STDERR_FILENO, NOSPACE, my_strlen(NOSPACE));
+        output_error(E_NOSPACE);
         return 1;
     }
     return 0;
