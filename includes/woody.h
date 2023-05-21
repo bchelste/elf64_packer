@@ -20,9 +20,9 @@
 # include <fcntl.h>
 
 # define ARGS_ERROR		"Wrong syntax. Correct way is to type: ./woody_woodpacker ./path/binary or ./woody_woodpacker -i ./path/binary\n"
-# define WRONG_FLAG		"Error: wrong flag! (wrong flag would be ignored)\n"
+# define WRONG_FLAG		"Only -i flag is managed (wrong flag would be ignored)\n"
 # define LOG_FD_ER		"There was something wrong with log file fd\n"
-# define F_OPEN_ERROR	"Error: failed -> open input file\n"
+# define F_OPEN_ERROR	"failed -> open input file\n"
 # define INVALID_ELF	"Error: invalid file, it must be valid linux ELF_64\n"
 # define MALLOC_ERROR	"Error: something wrong with malloc\n"
 # define READ_ERROR		"Error: something wrong with reading file\n"

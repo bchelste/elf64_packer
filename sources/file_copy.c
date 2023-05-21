@@ -26,16 +26,12 @@ int read_file(int fd, t_woody *woody) {
 	woody->ptr = malloc(woody->file_size);
 	if (woody->ptr == NULL) {
 		write(STDERR_FILENO, MALLOC_ERROR, my_strlen(MALLOC_ERROR));
-		close(fd);
 		return 1;
 	}
 	if (read(fd, woody->ptr, woody->file_size) != woody->file_size) {
-		free(woody->ptr);
 		write(STDERR_FILENO, READ_ERROR, my_strlen(READ_ERROR));
-		close(fd);
 		return 1;
 	}
-	close(fd);
 	return(0);
 }
 
@@ -50,7 +46,10 @@ int copy_file(const char *file_path, t_woody *woody) {
 		write(STDERR_FILENO, INVALID_ELF, my_strlen(INVALID_ELF));
 		return 1;
 	}
-	if (read_file(fd, woody))
+	if (read_file(fd, woody)) {
+		close(fd);
 		return 1;
+	}
+	close(fd);
 	return 0;
 }

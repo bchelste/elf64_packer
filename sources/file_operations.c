@@ -41,7 +41,8 @@ int set_crypto_data(t_crypto *crypto, t_woody *woody) {
     crypto->original_entry = woody->header->e_entry;
     crypto->encrypted_code_section = woody->text_section->sh_addr;
     crypto->encrypted_size = woody->text_section->sh_size;
-    crypto->encrypted_entry = set_current_entry(woody);
+    // crypto->encrypted_entry = set_current_entry(woody);
+    crypto->encrypted_entry = woody->code_segment->p_vaddr + woody->code_segment->p_memsz;
     return 0;
 }
 
@@ -70,13 +71,20 @@ void change_load_segment(t_crypto *crypto, t_woody *woody) {
 int write_to_file(t_woody *woody) {
     int fd = open("woody", O_WRONLY | O_CREAT | O_TRUNC, 0755);
     ssize_t i = 0;
+    void *tmp_ptr = woody->ptr;
     if (fd > 0) {
-        for (; i < woody->file_size; ++i)
-            write(fd, woody->ptr + i, 1);
+        while (i < woody->file_size) {
+            tmp_ptr = woody->ptr + i;
+            if (woody->file_size - i >= BUFFER_SIZE) {
+                i += write(fd, tmp_ptr, BUFFER_SIZE);
+            } else {
+                i += write(fd, tmp_ptr, woody->file_size % BUFFER_SIZE);
+            }
+        }  
         close(fd);
         printf("File create: woody\n");
     } else { 
-        return 0;
+        return -1;
     }
     return (i == woody->file_size);
 }
@@ -85,7 +93,6 @@ int encrypt_file(t_woody *woody) {
     t_crypto crypto;
     void *pos = woody->ptr + woody->text_section->sh_offset;
     if (set_crypto_data(&crypto, woody)) {
-        free(woody->ptr);
         return 1;
     }
     encrypt_text_section(woody->text_section->sh_size, pos, crypto.key);

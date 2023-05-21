@@ -60,7 +60,7 @@ int check_empty_space(t_woody *woody) {
     void *tmp = woody->ptr + woody->code_segment->p_offset + woody->code_segment->p_filesz;
     void *pos = tmp;
     while ((pos < (woody->ptr + woody->file_size)) &&
-        (*((unsigned char*)pos) == 0)) {
+        (*(unsigned char*)pos == 0)) {
             ++pos;
     }
     if ((pos - tmp) < g_decryptor_len) {
@@ -72,16 +72,13 @@ int check_empty_space(t_woody *woody) {
 
 int parser_file_info(t_woody *woody) {
     if (check_file_format(woody->ptr)) {
-        free(woody->ptr);
         return 1;
     }
     set_segments(woody);
     if (check_encryption(woody)) {
-        free(woody->ptr);
         return 1;
     }
     if (check_empty_space(woody)) {
-        free(woody->ptr);
         return 1;
     }
     return 0;
