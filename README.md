@@ -54,12 +54,12 @@ there is also flag **-no-pie** for **EXEC** type
 
 ---
 # Usage
-**make  -> woody-woodpacker**
+**make**   --->  **woody-woodpacker**
 
-**woody_woodpacker** <optional_flag **i**> <elf_64_file> -> woody
+**woody_woodpacker** <optional_flag **i**> <elf_64_file>  --->  **woody**
 
 
-flag **i** is used for mo detail information about elf file
+flag **i** is used for more detail information about elf file
 
 
 (woody is a result elf64 file **encrypted** program, it displays "....WOODY....",
@@ -73,3 +73,26 @@ and *make hello* to create test ELF64 file
 
 **encryption key** is generated randomly from */dev/urandom*
 it will be displayed on the standart output when running the main program
+
+---
+
+# Program logic
+
+## the first step
+
+- find the **.text** section for the future encryption
+- find the **LOAD** segment with equal *p_memsz* and *p_filesz*
+- check the amount of space filled with null bytes, it should be enough to insert the decryptor at the end of this **LOAD** segment
+
+## the second step
+
+(if there is required space)
+
+- encryption **.text** section
+- change the entry point in ELF header to the new point of decryptor part
+- save the previous entry point, new entry point, encryption key, start point, size of the encrypted **.text** section in the decryptor part
+- add **PF_W** flag in the **LOAD** segment => to write
+- insert the decryptor at the end of the **LOAD** segment
+- increase segment params: *p_memsz* and * p_filesz*
+
+---
