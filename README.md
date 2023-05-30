@@ -54,4 +54,22 @@ there is also flag **-no-pie** for **EXEC** type
 
 ---
 # Usage
-**make**  
+**make  -> woody-woodpacker**
+
+**woody_woodpacker** <optional_flag **i**> <elf_64_file> -> woody
+
+
+flag **i** is used for mo detail information about elf file
+
+
+(woody is a result elf64 file **encrypted** program, it displays "....WOODY....",
+followed by a newline, other execution after decryption is not altered ->
+execution is identical to the binary given as parametr to **woody-woodpacker**).
+
+make [ all, clean, fclean, re]
+and *make hello* to create test ELF64 file
+(clang -m64 -o hello ./test_files/hello.c)
+
+
+**encryption key** is generated randomly from */dev/urandom*
+it will be displayed on the standart output when running the main program
